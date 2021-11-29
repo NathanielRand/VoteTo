@@ -11,7 +11,7 @@
 #### Run Bot (Locally):
 ##### - Export Bot Token Env Var
 
-    export BOT_TOKEN=OTEzMTU4OTA5MzExNzMzODUy.YZ6bgQ.4Ck2Rss6Dft_abscJdWyOEyN04Q
+    export BOT_TOKEN=<INSERT TOKEN HERE>
 
 ##### - Run go app calling env var
 

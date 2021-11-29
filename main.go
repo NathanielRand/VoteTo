@@ -80,10 +80,10 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 		commandHelpTitle := "Looks like you need a hand stoopid. Guess you can check out my commands below, daddy... \n \n"
 		commandHelp := "- !vthelp : Provides a list of my commands. \n"
-		commandKick := "- !vtk @User: Starts a vote to kick the targeted user. \n"
-		commandMute := "- !vtm @User: Starts a vote to mute the targeted user. \n"
-		commandDeafen := "- !vtd @User: Starts a vote to deafen the targeted user. \n"
-		commandKiss := "- !vtkiss @User: Starts a vote to kiss the targeted user ❤️. \n"
+		commandKick := "- !vtk @User : Vote to kick the tagged user. \n"
+		commandMute := "- !vtm @User : Vote to mute the tagged user. \n"
+		commandDeafen := "- !vtd @User : Vote to deafen the tagged user. \n"
+		commandKiss := "- !vtkiss @User : Vote to kiss the tagged user ❤️. \n"
 
 		message := "Whats up " + author + "\n \n" + commandHelpTitle + commandHelp + commandKick + commandMute + commandDeafen + commandKiss
 

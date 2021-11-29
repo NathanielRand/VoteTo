@@ -26,26 +26,6 @@ func goDotEnvVariable(key string) string {
 	return os.Getenv(key)
 }
 
-// func main() {
-// 	// Grab bot token env var.
-// 	port := goDotEnvVariable("PORT")
-// 	if port == "" {
-// 		port = ":8080"
-// 	}
-
-// 	// runBot()
-
-// 	// Gorilla Mux router
-// 	r := mux.NewRouter()
-
-// 	// Routes
-// 	r.HandleFunc("/", runBot)
-
-// 	// Start web server.
-// 	fmt.Println("Listening on port", port)
-// 	http.ListenAndServe(port, r)
-// }
-
 func main() {
 
 	// Grab bot token env var.

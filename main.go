@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-	// "net/http"
 	"os"
 	"os/signal"
 	"strings"
@@ -11,7 +10,6 @@ import (
 	"time"
 
 	"github.com/bwmarrin/discordgo"
-	// "github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 )
 
@@ -60,21 +58,6 @@ func main() {
 	// Cleanly close down the Discord session.
 	dg.Close()
 }
-
-// func main() {
-
-// 	// Gorilla Mux router
-// 	r := mux.NewRouter()
-
-// 	// Routes
-// 	r.HandleFunc("/", nil)
-
-// 	runBot()
-
-// 	// Start web server.
-// 	fmt.Println("Listening on port", port)
-// 	http.ListenAndServe(port, r)
-// }
 
 // This function will be called (due to AddHandler above) every time a new
 // message is created on any channel that the authenticated bot has access to.

@@ -4,24 +4,21 @@
 
 #### TODO:
 - Core: Normalize the content before checking the command to make it case-insensitive.
-- Core: Add !vthelp to return aviable commands.
+- Core: Add !vtsite to link to bot's website.
+- Core: Add !vtsupport to link to bot's patreon.
+- Core: Add !vtversion to return bot's current version number.
+- Core: Add emotes to help menu commands
 - Free: Tag everyone in a specific VC with author is currently active
 - Premium: 
 
 #### Run Bot (Locally):
-##### - Export Bot Token Env Var
+##### - Add .env file with bot token
 
-    export BOT_TOKEN=<INSERT TOKEN HERE>
+    BOT_TOKEN=<INSERT TOKEN HERE>
 
 ##### - Run go app calling env var
 
-    go run main.go -t $BOT_TOKEN
-
-
-#### Deployment to GCP:
-##### - Set current workspace to active GCP project
-
-    gcloud config set project discordbots-01
+    go run main.go
 
 #### Reference: 
 `https://dev.to/aurelievache/learning-go-by-examples-part-4-create-a-bot-for-discord-in-go-43cf`

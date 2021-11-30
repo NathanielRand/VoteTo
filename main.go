@@ -13,7 +13,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var version string = "1.0.0"
+var version string = "1.0.1"
 
 func goDotEnvVariable(key string) string {
 	// Load .env file.
@@ -91,7 +91,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		commandSupport := "✨  !vtsupport : Link to the VoteTo Patreon. \n"
 		commandVersion := "🤖  !vtversion : Current VoteTo version. \n"
 
-		message := "Whats up " + author + "\n \n" + commandHelpTitle + "COMMANDS: \n \n" + commandHelp + commandKick + commandMute + commandDeafen + commandMuteDeafen + commandKiss + "\n" + "OTHER: \n \n" + commandSite + commandSupport + commandVersion + "\n \n \n"
+		message := "Whats up " + author + "\n \n" + commandHelpTitle + "COMMANDS: \n \n" + commandHelp + commandKick + commandMute + commandDeafen + commandMuteDeafen + commandKiss + "\n" + "OTHER: \n \n" + commandSite + commandSupport + commandVersion + "\n \n" + "https://www.patreon.com/BotVoteTo"
 
 		// Reply to help request with build message above.
 		_, err := s.ChannelMessageSendReply(m.ChannelID, message, m.Reference())
@@ -126,7 +126,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	if strings.Contains(content, "!vtversion") == true {
 		// Build start vote message
-		message := "VoteBot is currently running " + version
+		message := "VoteBot is currently running version " + version
 
 		// Send start vote message
 		_, err := s.ChannelMessageSend(m.ChannelID, message)

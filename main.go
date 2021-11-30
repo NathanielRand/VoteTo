@@ -84,14 +84,17 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		commandHelp := "❔  !vthelp : Provides a list of my commands. \n"
 		commandKick := "🦶🏽  !vtk @User : Vote to kick (disconnect, not ban) a user. \n"
 		commandMute := "🎙️  !vtm @User : Vote to mute a user. \n"
+		commandUnMute := "🎙️  !vtum @User : Vote to mute a user. \n"
 		commandDeafen := "🎧  !vtd @User : Vote to deafen a user. \n"
+		commandUnDeafen := "🎧  !vtud @User : Vote to deafen a user. \n"
 		commandMuteDeafen := "🔇  !vtx @User : Vote to mute & deafen a user. \n"
+		commandUnMuteDeafen := "🔇  !vtux @User : Vote to mute & deafen a user. \n"
 		commandKiss := "💋  !vtkiss @User : Vote to kiss a user ❤️. \n"
 		commandSite := "🔗  !vtsite : Link to the VoteTo website \n"
 		commandSupport := "✨  !vtsupport : Link to the VoteTo Patreon. \n"
 		commandVersion := "🤖  !vtversion : Current VoteTo version. \n"
 
-		message := "Whats up " + author + "\n \n" + commandHelpTitle + "COMMANDS: \n \n" + commandHelp + commandKick + commandMute + commandDeafen + commandMuteDeafen + commandKiss + "\n" + "OTHER: \n \n" + commandSite + commandSupport + commandVersion + "\n \n" + "https://www.patreon.com/BotVoteTo"
+		message := "Whats up " + author + "\n \n" + commandHelpTitle + "COMMANDS: \n \n" + commandHelp + commandKick + commandMute + commandUnMute + commandDeafen + commandUnDeafen + commandMuteDeafen + commandUnMuteDeafen + commandKiss + "\n" + "OTHER: \n \n" + commandSite + commandSupport + commandVersion + "\n \n" + "https://www.patreon.com/BotVoteTo"
 
 		// Reply to help request with build message above.
 		_, err := s.ChannelMessageSendReply(m.ChannelID, message, m.Reference())
@@ -262,7 +265,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 				fmt.Println(err)
 			}
 
-			voteMessage := "Shut up " + trimmed + ". You suck."
+			voteMessage := "Words are hard " + trimmed + ". You suck."
 			_, err := s.ChannelMessageSendReply(m.ChannelID, voteMessage, m.Reference())
 			if err != nil {
 				fmt.Println(err)
@@ -281,6 +284,82 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 			}
 		} else if len(yes) == len(no) {
 			voteMessage := "Woah, a tie! " + trimmed + " can still speak..."
+			_, err := s.ChannelMessageSendReply(m.ChannelID, voteMessage, m.Reference())
+			if err != nil {
+				fmt.Println(err)
+			}
+		}
+	}
+
+	if strings.Contains(content, "!vtum") == true {
+		// Trim bot command from string to grab User tagged
+		trimmed := strings.TrimPrefix(content, "!vtum ")
+		trimmedUser := strings.Trim(trimmed, "<@!>")
+
+		// Build start vote message
+		author := m.Author.Username
+		message := author + " is voting to UNMUTE " + trimmed + ". You have 15 seconds to vote starting now..."
+
+		// Send start vote message
+		messageVote, err := s.ChannelMessageSend(m.ChannelID, message)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		// Add yes reaction to vote message
+		err = s.MessageReactionAdd(m.ChannelID, messageVote.ID, "✔️")
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		// Add no reaction to vote message
+		err = s.MessageReactionAdd(m.ChannelID, messageVote.ID, "❌")
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		// Wait 15 seconds before counting the votes
+		time.Sleep(15 * time.Second)
+
+		// Count yes reactions from vote message
+		yes, err2 := s.MessageReactions(m.ChannelID, messageVote.ID, "✔️", 100, "", "")
+		if err2 != nil {
+			fmt.Println(err)
+		}
+
+		// Count no reactions from vote message
+		no, err3 := s.MessageReactions(m.ChannelID, messageVote.ID, "❌", 100, "", "")
+		if err3 != nil {
+			fmt.Println(err)
+		}
+
+		// Check reaction counts and return action/message based on results
+		if len(yes) > len(no) {
+			// GuildMemberMute(guildID string, userID string, channelID *string) (err error)
+			err = s.GuildMemberMute(guildID, trimmedUser, false)
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			voteMessage := "Here, have your words " + trimmed
+			_, err := s.ChannelMessageSendReply(m.ChannelID, voteMessage, m.Reference())
+			if err != nil {
+				fmt.Println(err)
+			}
+		} else if len(yes) < len(no) {
+			voteMessage := "Big sad" + trimmed + ", you still can't talk."
+			_, err := s.ChannelMessageSendReply(m.ChannelID, voteMessage, m.Reference())
+			if err != nil {
+				fmt.Println(err)
+			}
+		} else if len(yes) == 1 && len(no) == 1 {
+			voteMessage := "No one cares enough to vote, " + trimmed + ". Almost worse than still being muted..."
+			_, err := s.ChannelMessageSendReply(m.ChannelID, voteMessage, m.Reference())
+			if err != nil {
+				fmt.Println(err)
+			}
+		} else if len(yes) == len(no) {
+			voteMessage := "Woah, a tie! " + trimmed + " still can't speak though..."
 			_, err := s.ChannelMessageSendReply(m.ChannelID, voteMessage, m.Reference())
 			if err != nil {
 				fmt.Println(err)
@@ -364,6 +443,82 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		}
 	}
 
+	if strings.Contains(content, "!vtud") == true {
+		// Trim bot command from string to grab User tagged
+		trimmed := strings.TrimPrefix(content, "!vtud ")
+		trimmedUser := strings.Trim(trimmed, "<@!>")
+
+		// Build start vote message
+		author := m.Author.Username
+		message := author + " is voting to UNDEAFEN " + trimmed + ". You have 15 seconds to vote starting now..."
+
+		// Send start vote message
+		messageVote, err := s.ChannelMessageSend(m.ChannelID, message)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		// Add yes reaction to vote message
+		err = s.MessageReactionAdd(m.ChannelID, messageVote.ID, "✔️")
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		// Add no reaction to vote message
+		err = s.MessageReactionAdd(m.ChannelID, messageVote.ID, "❌")
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		// Wait 15 seconds before counting the votes
+		time.Sleep(15 * time.Second)
+
+		// Count yes reactions from vote message
+		yes, err2 := s.MessageReactions(m.ChannelID, messageVote.ID, "✔️", 100, "", "")
+		if err2 != nil {
+			fmt.Println(err)
+		}
+
+		// Count no reactions from vote message
+		no, err3 := s.MessageReactions(m.ChannelID, messageVote.ID, "❌", 100, "", "")
+		if err3 != nil {
+			fmt.Println(err)
+		}
+
+		// Check reaction counts and return action/message based on results
+		if len(yes) > len(no) {
+			// GuildMemberMove(guildID string, userID string, channelID *string) (err error)
+			err = s.GuildMemberDeafen(guildID, trimmedUser, false)
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			voteMessage := "Shhh shhh be quiet... " + trimmed + " is back."
+			_, err := s.ChannelMessageSendReply(m.ChannelID, voteMessage, m.Reference())
+			if err != nil {
+				fmt.Println(err)
+			}
+		} else if len(yes) < len(no) {
+			voteMessage := trimmed + " still hears nada."
+			_, err := s.ChannelMessageSendReply(m.ChannelID, voteMessage, m.Reference())
+			if err != nil {
+				fmt.Println(err)
+			}
+		} else if len(yes) == 1 && len(no) == 1 {
+			voteMessage := "No one cares enough to vote, " + trimmed + ". Almost worse than still being deafened..."
+			_, err := s.ChannelMessageSendReply(m.ChannelID, voteMessage, m.Reference())
+			if err != nil {
+				fmt.Println(err)
+			}
+		} else if len(yes) == len(no) {
+			voteMessage := "Woah, a tie! " + trimmed + " still can't hear though..."
+			_, err := s.ChannelMessageSendReply(m.ChannelID, voteMessage, m.Reference())
+			if err != nil {
+				fmt.Println(err)
+			}
+		}
+	}
+
 	if strings.Contains(content, "!vtx") == true {
 		// Trim bot command from string to grab User tagged
 		trimmed := strings.TrimPrefix(content, "!vtx ")
@@ -431,13 +586,94 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 				fmt.Println(err)
 			}
 		} else if len(yes) == 1 && len(no) == 1 {
-			voteMessage := "No one cares enough to vote, " + trimmed + ". Almost worse than getting deafened..."
+			voteMessage := "No one cares enough to vote, " + trimmed + ". Almost worse than getting muted and deafened..."
 			_, err := s.ChannelMessageSendReply(m.ChannelID, voteMessage, m.Reference())
 			if err != nil {
 				fmt.Println(err)
 			}
 		} else if len(yes) == len(no) {
 			voteMessage := "Woah, a tie! " + trimmed + " can still hear us..."
+			_, err := s.ChannelMessageSendReply(m.ChannelID, voteMessage, m.Reference())
+			if err != nil {
+				fmt.Println(err)
+			}
+		}
+	}
+
+	if strings.Contains(content, "!vtux") == true {
+		// Trim bot command from string to grab User tagged
+		trimmed := strings.TrimPrefix(content, "!vtx ")
+		trimmedUser := strings.Trim(trimmed, "<@!>")
+
+		// Build start vote message
+		author := m.Author.Username
+		message := author + " is voting to UNMUTE & UNDEAFEN " + trimmed + ". You have 15 seconds to vote starting now..."
+
+		// Send start vote message
+		messageVote, err := s.ChannelMessageSend(m.ChannelID, message)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		// Add yes reaction to vote message
+		err = s.MessageReactionAdd(m.ChannelID, messageVote.ID, "✔️")
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		// Add no reaction to vote message
+		err = s.MessageReactionAdd(m.ChannelID, messageVote.ID, "❌")
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		// Wait 15 seconds before counting the votes
+		time.Sleep(15 * time.Second)
+
+		// Count yes reactions from vote message
+		yes, err2 := s.MessageReactions(m.ChannelID, messageVote.ID, "✔️", 100, "", "")
+		if err2 != nil {
+			fmt.Println(err)
+		}
+
+		// Count no reactions from vote message
+		no, err3 := s.MessageReactions(m.ChannelID, messageVote.ID, "❌", 100, "", "")
+		if err3 != nil {
+			fmt.Println(err)
+		}
+
+		// Check reaction counts and return action/message based on results
+		if len(yes) > len(no) {
+			// GuildMemberMove(guildID string, userID string, channelID *string) (err error)
+			err = s.GuildMemberDeafen(guildID, trimmedUser, false)
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			err = s.GuildMemberMute(guildID, trimmedUser, false)
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			voteMessage := trimmed + " is back baby!"
+			_, err := s.ChannelMessageSendReply(m.ChannelID, voteMessage, m.Reference())
+			if err != nil {
+				fmt.Println(err)
+			}
+		} else if len(yes) < len(no) {
+			voteMessage := trimmed + " still can't speak or hear."
+			_, err := s.ChannelMessageSendReply(m.ChannelID, voteMessage, m.Reference())
+			if err != nil {
+				fmt.Println(err)
+			}
+		} else if len(yes) == 1 && len(no) == 1 {
+			voteMessage := "No one cares enough to vote, " + trimmed + ".  Almost worse than still being muted and deafened..."
+			_, err := s.ChannelMessageSendReply(m.ChannelID, voteMessage, m.Reference())
+			if err != nil {
+				fmt.Println(err)
+			}
+		} else if len(yes) == len(no) {
+			voteMessage := "Woah, a tie! " + trimmed + " still can't speak or hear though..."
 			_, err := s.ChannelMessageSendReply(m.ChannelID, voteMessage, m.Reference())
 			if err != nil {
 				fmt.Println(err)

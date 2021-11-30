@@ -4,12 +4,11 @@
 
 #### TODO:
 - Core: Normalize the content before checking the command to make it case-insensitive.
-- Core: Add !vtsite to link to bot's website.
-- Core: Add !vtsupport to link to bot's patreon.
-- Core: Add !vtversion to return bot's current version number.
-- Core: Add emotes to help menu commands
+- Core: Add !vtrequest to request a new command.
+- Core: Consider replcaing "!" command prefix with "/" for autocomplete. Look into how to add message.
+- Core: Add timer flag option (15s, 1h, 7d, etc) where it reverses the action in the vote if voted yes. No flag is infinite and requires admin unmute/undeafen or vote to unmute/und
 - Free: Tag everyone in a specific VC with author is currently active
-- Premium: 
+- Premium: n/a
 
 #### Run Bot (Locally):
 ##### - Add .env file with bot token

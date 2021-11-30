@@ -78,14 +78,17 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		// Build help message
 		author := m.Author.Username
 
-		commandHelpTitle := "Looks like you need a hand stoopid. Guess you can check out my commands below, daddy... \n \n"
-		commandHelp := "- !vthelp : Provides a list of my commands. \n"
-		commandKick := "- !vtk @User : Vote to kick the tagged user. \n"
-		commandMute := "- !vtm @User : Vote to mute the tagged user. \n"
-		commandDeafen := "- !vtd @User : Vote to deafen the tagged user. \n"
-		commandKiss := "- !vtkiss @User : Vote to kiss the tagged user ❤️. \n"
+		commandHelpTitle := "Looks like you need a hand. Check out my stuff below... \n \n"
+		commandHelp := "❔ - !vthelp : Provides a list of my commands. \n"
+		commandKick := "🦶🏽 - !vtk @User : Vote to kick (disconnect from voice, not ban) the tagged user. \n"
+		commandMute := "🎙️ - !vtm @User : Vote to mute the tagged user. \n"
+		commandDeafen := "🎧 - !vtd @User : Vote to deafen the tagged user. \n"
+		commandKiss := "💋 - !vtkiss @User : Vote to kiss the tagged user ❤️. \n"
+		commandSite := "🔗 - !vtsite : Link to the VoteTo website \n"
+		commandSupport := "✨ - !vtsupport : Link to the VoteTo Patreon. \n"
+		commandVersion := "🤖 - !vtversion : Current VoteTo version. \n"
 
-		message := "Whats up " + author + "\n \n" + commandHelpTitle + commandHelp + commandKick + commandMute + commandDeafen + commandKiss
+		message := "Whats up " + author + "\n \n" + commandHelpTitle + "COMMANDS: \n" + commandHelp + commandKick + commandMute + commandDeafen + commandKiss + "\n" + "OTHER: \n" + commandSite + commandSupport + commandVersion + "\n"
 
 		// Reply to help request with build message above.
 		_, err := s.ChannelMessageSendReply(m.ChannelID, message, m.Reference())

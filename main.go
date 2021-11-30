@@ -13,7 +13,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var version string = "1.0.1"
+var version string = "1.0.2"
 
 func goDotEnvVariable(key string) string {
 	// Load .env file.
@@ -80,7 +80,15 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		// Build help message
 		author := m.Author.Username
 
+		// Title
 		commandHelpTitle := "Looks like you need a hand. Check out my goodies below... \n \n"
+
+		// Notes
+		note1 := "- Vote to kick will disconnect a user from any voice channel. This is NOT a kick/ban from the server. \n"
+		note2 := "- Bot will server mute/deafen, NOT client mute/deafen \n"
+		note3 := "- Commands are case-sensitive. They must be in lower-case :) . \n"
+
+		// Commands
 		commandHelp := "❔  !vthelp : Provides a list of my commands. \n"
 		commandKick := "🦶🏽  !vtk @User : Vote to kick (disconnect, not ban) a user. \n"
 		commandMute := "🎙️  !vtm @User : Vote to mute a user. \n"
@@ -94,7 +102,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		commandSupport := "✨  !vtsupport : Link to the VoteTo Patreon. \n"
 		commandVersion := "🤖  !vtversion : Current VoteTo version. \n"
 
-		message := "Whats up " + author + "\n \n" + commandHelpTitle + "COMMANDS: \n \n" + commandHelp + commandKick + commandMute + commandUnMute + commandDeafen + commandUnDeafen + commandMuteDeafen + commandUnMuteDeafen + commandKiss + "\n" + "OTHER: \n \n" + commandSite + commandSupport + commandVersion + "\n \n" + "https://www.patreon.com/BotVoteTo"
+		message := "Whats up " + author + "\n \n" + commandHelpTitle + "NOTES: \n \n" + note1 + note2 + note3 + "COMMANDS: \n \n" + commandHelp + commandKick + commandMute + commandUnMute + commandDeafen + commandUnDeafen + commandMuteDeafen + commandUnMuteDeafen + commandKiss + "\n" + "OTHER: \n \n" + commandSite + commandSupport + commandVersion + "\n \n" + "https://www.patreon.com/BotVoteTo"
 
 		// Reply to help request with build message above.
 		_, err := s.ChannelMessageSendReply(m.ChannelID, message, m.Reference())

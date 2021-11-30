@@ -6,9 +6,6 @@ export PATH=$PATH:/usr/local/go/bin
 # Turn off Go modules.
 export GO111MODULE=off
 
-# Change to VoteTo directory.
-cd go/src/github.com/NathanielRand/VoteTo/
-
 # Pull most recent updates from Github repo.
 git pull https://github.com/NathanielRand/VoteTo
 

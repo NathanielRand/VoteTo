@@ -13,6 +13,8 @@ import (
 	"github.com/joho/godotenv"
 )
 
+var version string = "1.0.0"
+
 func goDotEnvVariable(key string) string {
 	// Load .env file.
 	err := godotenv.Load(".env")
@@ -101,7 +103,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if strings.Contains(content, "!vtsite") == true {
 		// Build start vote message
 		author := m.Author.Username
-		message := "Here ya go" + author + "\n" + "https://discordbots.dev/VoteTo"
+		message := "Here ya go " + author + "..." + "\n" + "https://discordbots.dev/VoteTo"
 
 		// Send start vote message
 		_, err := s.ChannelMessageSend(m.ChannelID, message)
@@ -114,6 +116,17 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		// Build start vote message
 		author := m.Author.Username
 		message := "Thanks for thinking of me " + author + " 💖." + "\n" + "https://www.patreon.com/BotVoteTo"
+
+		// Send start vote message
+		_, err := s.ChannelMessageSend(m.ChannelID, message)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+
+	if strings.Contains(content, "!vtversion") == true {
+		// Build start vote message
+		message := "VoteBot is currently running " + version
 
 		// Send start vote message
 		_, err := s.ChannelMessageSend(m.ChannelID, message)

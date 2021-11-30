@@ -84,11 +84,11 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		commandHelp := "❔  !vthelp : Provides a list of my commands. \n"
 		commandKick := "🦶🏽  !vtk @User : Vote to kick (disconnect, not ban) a user. \n"
 		commandMute := "🎙️  !vtm @User : Vote to mute a user. \n"
-		commandUnMute := "🎙️  !vtum @User : Vote to mute a user. \n"
+		commandUnMute := "🎙️  !vtum @User : Vote to unmute a user. \n"
 		commandDeafen := "🎧  !vtd @User : Vote to deafen a user. \n"
-		commandUnDeafen := "🎧  !vtud @User : Vote to deafen a user. \n"
+		commandUnDeafen := "🎧  !vtud @User : Vote to undeafen a user. \n"
 		commandMuteDeafen := "🔇  !vtx @User : Vote to mute & deafen a user. \n"
-		commandUnMuteDeafen := "🔇  !vtux @User : Vote to mute & deafen a user. \n"
+		commandUnMuteDeafen := "🔇  !vtux @User : Vote to unmute & undeafen a user. \n"
 		commandKiss := "💋  !vtkiss @User : Vote to kiss a user ❤️. \n"
 		commandSite := "🔗  !vtsite : Link to the VoteTo website \n"
 		commandSupport := "✨  !vtsupport : Link to the VoteTo Patreon. \n"
@@ -602,7 +602,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	if strings.Contains(content, "!vtux") == true {
 		// Trim bot command from string to grab User tagged
-		trimmed := strings.TrimPrefix(content, "!vtx ")
+		trimmed := strings.TrimPrefix(content, "!vtux ")
 		trimmedUser := strings.Trim(trimmed, "<@!>")
 
 		// Build start vote message

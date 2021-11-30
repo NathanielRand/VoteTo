@@ -102,7 +102,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		commandSupport := "✨  !vtsupport : Link to the VoteTo Patreon. \n"
 		commandVersion := "🤖  !vtversion : Current VoteTo version. \n"
 
-		message := "Whats up " + author + "\n \n" + commandHelpTitle + "NOTES: \n \n" + note1 + note2 + note3 + "COMMANDS: \n \n" + commandHelp + commandKick + commandMute + commandUnMute + commandDeafen + commandUnDeafen + commandMuteDeafen + commandUnMuteDeafen + commandKiss + "\n" + "OTHER: \n \n" + commandSite + commandSupport + commandVersion + "\n \n" + "https://www.patreon.com/BotVoteTo"
+		message := "Whats up " + author + "\n \n" + commandHelpTitle + "NOTES: \n \n" + note1 + note2 + note3 + "\n" + "COMMANDS: \n \n" + commandHelp + commandKick + commandMute + commandUnMute + commandDeafen + commandUnDeafen + commandMuteDeafen + commandUnMuteDeafen + commandKiss + "\n" + "OTHER: \n \n" + commandSite + commandSupport + commandVersion + "\n \n" + "https://www.patreon.com/BotVoteTo"
 
 		// Reply to help request with build message above.
 		_, err := s.ChannelMessageSendReply(m.ChannelID, message, m.Reference())

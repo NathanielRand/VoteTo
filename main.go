@@ -79,16 +79,17 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		author := m.Author.Username
 
 		commandHelpTitle := "Looks like you need a hand. Check out my goodies below... \n \n"
-		commandHelp := "❔ - !vthelp : Provides a list of my commands. \n"
-		commandKick := "🦶🏽 - !vtk @User : Vote to kick ( disconnect from voice, not ban :/ ) the tagged user. \n"
-		commandMute := "🎙️ - !vtm @User : Vote to mute the tagged user. \n"
-		commandDeafen := "🎧 - !vtd @User : Vote to deafen the tagged user. \n"
-		commandKiss := "💋 - !vtkiss @User : Vote to kiss the tagged user ❤️. \n"
-		commandSite := "🔗 - !vtsite : Link to the VoteTo website \n"
-		commandSupport := "✨ - !vtsupport : Link to the VoteTo Patreon. \n"
-		commandVersion := "🤖 - !vtversion : Current VoteTo version. \n"
+		commandHelp := "❔  !vthelp : Provides a list of my commands. \n"
+		commandKick := "🦶🏽  !vtk @User : Vote to kick (disconnect, not ban) a user. \n"
+		commandMute := "🎙️  !vtm @User : Vote to mute a user. \n"
+		commandDeafen := "🎧  !vtd @User : Vote to deafen a user. \n"
+		commandMuteDeafen := "🔇  !vtx @User : Vote to mute & deafen a user. \n"
+		commandKiss := "💋  !vtkiss @User : Vote to kiss a user ❤️. \n"
+		commandSite := "🔗  !vtsite : Link to the VoteTo website \n"
+		commandSupport := "✨  !vtsupport : Link to the VoteTo Patreon. \n"
+		commandVersion := "🤖  !vtversion : Current VoteTo version. \n"
 
-		message := "Whats up " + author + "\n \n" + commandHelpTitle + "COMMANDS: \n" + commandHelp + commandKick + commandMute + commandDeafen + commandKiss + "\n" + "OTHER: \n" + commandSite + commandSupport + commandVersion + "\n"
+		message := "Whats up " + author + "\n \n" + commandHelpTitle + "COMMANDS: \n \n" + commandHelp + commandKick + commandMute + commandDeafen + commandMuteDeafen + commandKiss + "\n" + "OTHER: \n \n" + commandSite + commandSupport + commandVersion + "\n \n \n"
 
 		// Reply to help request with build message above.
 		_, err := s.ChannelMessageSendReply(m.ChannelID, message, m.Reference())
@@ -112,7 +113,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if strings.Contains(content, "!vtsupport") == true {
 		// Build start vote message
 		author := m.Author.Username
-		message := "Thanks for thinking of me" + author + "💖." + "\n" + "https://www.patreon.com/BotVoteTo"
+		message := "Thanks for thinking of me " + author + " 💖." + "\n" + "https://www.patreon.com/BotVoteTo"
 
 		// Send start vote message
 		_, err := s.ChannelMessageSend(m.ChannelID, message)
@@ -242,7 +243,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 		// Check reaction counts and return action/message based on results
 		if len(yes) > len(no) {
-			// GuildMemberMove(guildID string, userID string, channelID *string) (err error)
+			// GuildMemberMute(guildID string, userID string, channelID *string) (err error)
 			err = s.GuildMemberMute(guildID, trimmedUser, true)
 			if err != nil {
 				fmt.Println(err)
@@ -350,9 +351,9 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		}
 	}
 
-	if strings.Contains(content, "!vtmd") == true {
+	if strings.Contains(content, "!vtx") == true {
 		// Trim bot command from string to grab User tagged
-		trimmed := strings.TrimPrefix(content, "!vtmd ")
+		trimmed := strings.TrimPrefix(content, "!vtx ")
 		trimmedUser := strings.Trim(trimmed, "<@!>")
 
 		// Build start vote message
@@ -396,6 +397,11 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		if len(yes) > len(no) {
 			// GuildMemberMove(guildID string, userID string, channelID *string) (err error)
 			err = s.GuildMemberDeafen(guildID, trimmedUser, true)
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			err = s.GuildMemberMute(guildID, trimmedUser, true)
 			if err != nil {
 				fmt.Println(err)
 			}

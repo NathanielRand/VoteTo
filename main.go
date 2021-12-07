@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"strconv"
 	"strings"
 	"syscall"
 	"time"
@@ -101,6 +102,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		commandSite := "🔗  !vtsite : Link to the VoteTo website \n"
 		commandSupport := "✨  !vtsupport : Link to the VoteTo Patreon. \n"
 		commandVersion := "🤖  !vtversion : Current VoteTo version. \n"
+		// commandStats := "🤖  !vtstats : Check out VoteTo stats. \n"
 
 		// Build help message
 		message := "Whats up " + author + "\n \n" + commandHelpTitle + "NOTES: \n \n" + note1 + note2 + note3 + "\n" + "COMMANDS: \n \n" + commandHelp + commandKick + commandMute + commandUnMute + commandDeafen + commandUnDeafen + commandMuteDeafen + commandUnMuteDeafen + commandKiss + "\n" + "OTHER: \n \n" + commandSite + commandSupport + commandVersion + "\n \n" + "https://www.patreon.com/BotVoteTo"
@@ -147,15 +149,17 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		}
 	}
 
-	if strings.Contains(content, "!vtstats") == true {
+	if strings.Contains(content, "!vtstats") {
 		// TODO: This will need to be updated to iterate through
 		// all shards once the bot joins 1,000 servers.
 		guilds := s.State.Ready.Guilds
 		fmt.Println(len(guilds))
 		guildCount := len(guilds)
 
+		guildCountStr := strconv.Itoa(guildCount)
+
 		// // Build start vote message
-		message := "VoteBot is currently on " + string(guildCount) + " servers. Such wow!"
+		message := "VoteBot is currently on " + guildCountStr + " servers. Such wow!"
 
 		// Send start vote message
 		_, err := s.ChannelMessageSend(m.ChannelID, message)
@@ -164,7 +168,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		}
 	}
 
-	if strings.Contains(content, "!vtinvite") == true {
+	if strings.Contains(content, "!vtinvite") {
 		author := m.Author.Username
 
 		// // Build start vote message

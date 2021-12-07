@@ -14,7 +14,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var version string = "1.0.2"
+var version string = "1.0.3"
 
 func goDotEnvVariable(key string) string {
 	// Load .env file.
@@ -85,6 +85,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		commandHelpTitle := "Looks like you need a hand. Check out my goodies below... \n \n"
 
 		// Notes
+		note0 := "- Dev: Narsiq#5638 . DM me if you have any requests/questions/love. \n \n"
 		note1 := "- Vote to kick will disconnect a user from any voice channel. This is NOT a kick/ban from the server. \n"
 		note2 := "- Bot will server mute/deafen, NOT client mute/deafen \n"
 		note3 := "- Commands are case-sensitive. They must be in lower-case :) . \n"
@@ -99,13 +100,19 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		commandMuteDeafen := "🔇  !vtx @User : Vote to mute & deafen a user. \n"
 		commandUnMuteDeafen := "🔇  !vtux @User : Vote to unmute & undeafen a user. \n"
 		commandKiss := "💋  !vtkiss @User : Vote to kiss a user ❤️. \n"
+		commandInvite := "🔗  !vtinvite : A invite link for the VoteTo Bot\n"
 		commandSite := "🔗  !vtsite : Link to the VoteTo website \n"
 		commandSupport := "✨  !vtsupport : Link to the VoteTo Patreon. \n"
+		commandStats := "📊  !vtstats : Check out VoteTo stats. \n"
 		commandVersion := "🤖  !vtversion : Current VoteTo version. \n"
-		// commandStats := "🤖  !vtstats : Check out VoteTo stats. \n"
 
-		// Build help message
-		message := "Whats up " + author + "\n \n" + commandHelpTitle + "NOTES: \n \n" + note1 + note2 + note3 + "\n" + "COMMANDS: \n \n" + commandHelp + commandKick + commandMute + commandUnMute + commandDeafen + commandUnDeafen + commandMuteDeafen + commandUnMuteDeafen + commandKiss + "\n" + "OTHER: \n \n" + commandSite + commandSupport + commandVersion + "\n \n" + "https://www.patreon.com/BotVoteTo"
+		// Build sub messages
+		notesMessage := note0 + note1 + note2 + note3
+		commandsMessage := commandHelp + commandKick + commandMute + commandUnMute + commandDeafen + commandUnDeafen + commandMuteDeafen + commandUnMuteDeafen + commandKiss
+		othersMessage := commandInvite + commandSite + commandSupport + commandStats + commandVersion
+
+		// Build full message
+		message := "Whats up " + author + "\n \n" + commandHelpTitle + "NOTES: \n \n" + notesMessage + "\n" + "COMMANDS: \n \n" + commandsMessage + "\n" + "OTHER: \n \n" + othersMessage + "\n \n" + "https://www.patreon.com/BotVoteTo"
 
 		// Reply to help request with build message above.
 		_, err := s.ChannelMessageSendReply(m.ChannelID, message, m.Reference())

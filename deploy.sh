@@ -7,13 +7,13 @@ export PATH=$PATH:/usr/local/go/bin
 export GO111MODULE=off
 
 # Pull most recent updates from Github repo.
-git pull https://github.com/NathanielRand/RockPaperScissors
+git pull https://github.com/NathanielRand/VoteTo
 
 # Build go program.
 go build
 
 # Kill previously running background process.
-kill $(pgrep RockPaperScissors)
+kill $(pgrep VoteTo)
 
 # Run and detach updated go program into a new process.
-nohup ./RockPaperScissors &
+nohup ./VoteTo &
